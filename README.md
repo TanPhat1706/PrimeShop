@@ -83,16 +83,16 @@ cd PrimeShop
 | -------- | --------------------------------------------- | -------- |
 | Admin    | admin                                         |  admin   |
 | Customer | user01                                        |  user01  |
-
+---
 🧑‍💻 Đóng góp
 1. Fork dự án
 2. Tạo nhánh mới git checkout -b feature/ten-tinh-nang
 3. Commit và push git push origin feature/...
 4. Mở Pull Request
-
+---
 📄 Giấy phép
 MIT License © 2025 TanPhat1706, pht1412, nhinguyen
-
+---
 🎯 Nếu bạn thấy dự án hữu ích, hãy ⭐ Star và Fork repo để ủng hộ tinh thần nhé!
 
 
