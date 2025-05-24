@@ -68,7 +68,7 @@ cd PrimeShop
 ```bash
   cd ../backend spring-node/primeshop
   # Cấu hình DB trong file application.properties
-  .mvn spring-boot:run
+  mvn spring-boot:run
 ```
 📍 4. Chạy Backend Node:
 ```bash
