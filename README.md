@@ -61,17 +61,24 @@ PrimeShop là nền tảng thương mại điện tử chuyên cung cấp các s
 ```bash
 git clone https://github.com/TanPhat1706/PrimeShop.git
 cd PrimeShop
-    📍 2. Chạy Frontend:
-      cd frontend react-vite
-      npm install
-      npm run dev
-    📍 3. Chạy Backend Spring:
-      cd ../backend spring-node/primeshop
-      # Cấu hình DB trong file application.properties
-      .mvn spring-boot:run
-    📍 4. Chạy Backend Node:
-      cd ../backend spring-node/primeshop/BE-NodeJs
-      lt --port 5173 --subdomain primeshop-vnpay
+```
+📍 2. Chạy Frontend:
+```bash
+  cd frontend react-vite
+  npm install
+  npm run dev
+```
+📍 3. Chạy Backend Spring:
+```bash
+  cd ../backend spring-node/primeshop
+  # Cấu hình DB trong file application.properties
+  .mvn spring-boot:run
+```
+📍 4. Chạy Backend Node:
+```bash
+  cd ../backend spring-node/primeshop/BE-NodeJs
+  lt --port 5173 --subdomain primeshop-vnpay
+```
 ### 🔐 Tài khoản mẫu (Demo):
 | Role     | Username                                      | Mật khẩu |
 | -------- | --------------------------------------------- | -------- |
