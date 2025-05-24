@@ -17,23 +17,22 @@ PrimeShop là nền tảng thương mại điện tử chuyên cung cấp các s
 ### Frontend (React Vite)
 - ⚛️ React 18+
 - 🔥 Vite
-- 📦 Redux Toolkit / Zustand
 - 🧩 React Router v6
-- 💅 TailwindCSS
-- 🌐 Axios, React Query (nếu dùng)
+- 💅 CSS, TailwindCSS, ModuleCSS
+- 🌐 Axios
 
 ### Backend chính (Spring Boot)
 - ☕ Java 17+
 - 🌱 Spring Boot 3+
 - 🔐 Spring Security + JWT
 - 🧠 Hibernate / JPA
-- 🗄️ MySQL / PostgreSQL
+- 🗄️ MySQL
+- 🔐 JWT Auth
 
 ### Backend phụ (Node.js)
 - 🟩 Node.js 18+
 - 🌐 Express.js
-- 🔐 JWT Auth
-- 🗃️ MongoDB / MySQL tùy module
+- 🗃️ MySQL
 
 ---
 
