@@ -3,7 +3,7 @@
 PrimeShop là nền tảng thương mại điện tử chuyên cung cấp các sản phẩm công nghệ như laptop, PC, điện thoại, iPad và linh kiện điện tử. Dự án được thiết kế với kiến trúc phân lớp hiện đại, tách biệt giữa frontend và backend, hỗ trợ mở rộng dễ dàng.
 
 ## 🌐 Live Demo (Chưa có)
-[https://primeshop-demo.vercel.app](https://primeshop-demo.vercel.app) *(cập nhật nếu đã deploy)*
+[https://primeshop-demo.vercel.app](https://primeshop-demo.vercel.app) *(sẽ cập nhật sau khi deploy)*
 
 ---
 
