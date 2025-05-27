@@ -26,7 +26,8 @@ public class VNPayService {
     private static final String VNP_TMN_CODE = "P8WZY8S4"; // Thay bằng TMN_CODE từ email VNPay
     private static final String VNP_HASH_SECRET = "AYAZFPB4UZMSBE23W110JC1WPVMG0DOV"; // Thay bằng HASH_SECRET từ email VNPay
     private static final String VNP_URL = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-    private static final String VNP_RETURN_URL = "https://localhost:5173/api/payment/callback"; // Thay bằng URL từ ngrok
+    private static final String VNP_RETURN_URL = "http://localhost:5173/payment-result"; // Thay bằng URL từ ngrok
+    private static final String VNP_IPN_URL = "http://localhost:8080/api/payment/callback";
 
     private final OrderService orderService;
     private final Logger logger = LoggerFactory.getLogger(VNPayService.class);

@@ -311,7 +311,7 @@ const ProductsPage: React.FC = () => {
       { label: "- Tất cả -", minPrice: "", maxPrice: "" },
       { label: "1 triệu", minPrice: "1000000", maxPrice: "1000000" },
       { label: "2 triệu", minPrice: "2000000", maxPrice: "2000000" },
-      { label: "5 triệu", minPrice: "50000000", maxPrice: "5000000" },
+      { label: "5 triệu", minPrice: "5000000", maxPrice: "5000000" },
       { label: "10 triệu", minPrice: "10000000", maxPrice: "10000000" },
       { label: "20 triệu", minPrice: "20000000", maxPrice: "20000000" },
   ];

@@ -29,4 +29,9 @@ public class PaymentCallbackResult {
     public boolean isSuccess() {
         return success;
     }
+
+    @Override
+    public String toString() {
+        return "CallbackResult{success=" + success + ", message='" + message + "'}";
+    }
 }

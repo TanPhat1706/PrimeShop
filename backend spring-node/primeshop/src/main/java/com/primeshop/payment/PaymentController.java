@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.view.RedirectView;
-import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
 @RequestMapping("/api/payment")
@@ -29,7 +27,8 @@ public class PaymentController {
 
     @GetMapping("/callback")
     public ResponseEntity<PaymentCallbackResult> paymentCallback(@RequestParam Map<String, String> params) {
-        return ResponseEntity.ok(vnPayService.handleCallback(params));
+        PaymentCallbackResult result = vnPayService.handleCallback(params);
+        return ResponseEntity.ok(result);
 
         // String redirectUrl = UriComponentsBuilder
         //     .fromUriString("https://primeshop-vnpay.loca.lt/payment-result")

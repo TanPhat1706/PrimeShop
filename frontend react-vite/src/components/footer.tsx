@@ -17,7 +17,7 @@ const Footer = () => {
       <div className="footer-container">
         <div className="footer-column">
           <h3>PrimeShop</h3>
-          <p>Địa chỉ: 123 Đường ABC, Thành phố XYZ</p>
+          <p>Địa chỉ: 10/80c Song Hành Xa Lộ Hà Nội, Phường Tân Phú, Thủ Đức, Hồ Chí Minh</p>
           <p>Điện thoại: 0123456789</p>
           <p>Email: contact@primeshop.com</p>
         </div>
