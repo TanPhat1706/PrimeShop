@@ -1,15 +1,21 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import '../../assets/css/cart.css'; // Import CSS cho trang giỏ hàng
 import api from '../../api/api';
 import { Cart } from '../../types/cart';
 import { Link } from 'react-router-dom';
-import { useCart } from '../../context/CartContext';
 import Swal from 'sweetalert2';
 import Button from '@mui/material/Button';
 
 const CartPage = () => {
   const [cart, setCart] = useState<Cart | null>(null);
   const [loading, setLoading] = useState(false);
+  const paymentMethods = [
+    {
+      id: 1,
+      name: "Thanh toán tiền mặt",
+      description: "Thanh toán tiền mặt khi nhận hàng",
+    },
+  ];
 
   const fetchCart = async () => {
     try {
