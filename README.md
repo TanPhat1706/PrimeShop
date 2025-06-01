@@ -25,11 +25,11 @@ PrimeShop là nền tảng thương mại điện tử chuyên cung cấp các s
 - 🧠 Hibernate / JPA
 - 🗄️ MySQL
 - 🔐 JWT Auth
+- 🗃️ MySQL
 
 ### Backend phụ (Node.js)
 - 🟩 Node.js 18+
 - 🌐 Express.js
-- 🗃️ MySQL
 
 ---
 
