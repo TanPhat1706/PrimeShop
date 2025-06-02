@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import "../../components/Login-register/style.css";
 import api from "../../api/api";
 import Swal from "sweetalert2";
+import { FaUser, FaEnvelope, FaLock } from "react-icons/fa";
 
 const RegisterPage = () => {
   const [registerData, setRegisterData] = useState({
@@ -66,20 +67,53 @@ const RegisterPage = () => {
   };
 
   return (
-    <AuthForm
-      title="Đăng ký tài khoản"
-      onSubmit={handleSubmit}
-      footer={<p>Đã có tài khoản? <Link to="/login">Đăng nhập</Link></p>}
-    >
-      {error && <div className="error-message">{error}</div>}
-      <InputField label="Tên đăng nhập" name="username" value={registerData.username} onChange={handleChange} />
-      <InputField label="Email" name="email" type="email" value={registerData.email} onChange={handleChange} />
-      <InputField label="Mật khẩu" name="password" type="password" value={registerData.password} onChange={handleChange} />
-      <InputField label="Nhập lại mật khẩu" name="confirmPassword" type="password" value={registerData.confirmPassword} onChange={handleChange} />
-      <button type="submit" className="auth-btn" disabled={loading}>
-        {loading ? "Đang xử lý..." : "Đăng ký"}
-      </button>
-    </AuthForm>
+    <div className="auth-page">
+      <AuthForm
+        title="Đăng ký tài khoản"
+        onSubmit={handleSubmit}
+        footer={<p>Đã có tài khoản? <Link to="/login">Đăng nhập</Link></p>}
+      >
+        {error && <div className="error-message">{error}</div>}
+        <InputField
+          label="Tên đăng nhập"
+          name="username"
+          value={registerData.username}
+          onChange={handleChange}
+          icon={<FaUser />}
+        />
+        <InputField
+          label="Email"
+          name="email"
+          type="email"
+          value={registerData.email}
+          onChange={handleChange}
+          icon={<FaEnvelope />}
+        />
+        <InputField
+          label="Mật khẩu"
+          name="password"
+          type="password"
+          value={registerData.password}
+          onChange={handleChange}
+          icon={<FaLock />}
+        />
+        <InputField
+          label="Nhập lại mật khẩu"
+          name="confirmPassword"
+          type="password"
+          value={registerData.confirmPassword}
+          onChange={handleChange}
+          icon={<FaLock />}
+        />
+        <button type="submit" className="auth-btn" disabled={loading}>
+          {loading ? (
+            <span className="loading-spinner">Đang xử lý...</span>
+          ) : (
+            "Đăng ký"
+          )}
+        </button>
+      </AuthForm>
+    </div>
   );
 };
 

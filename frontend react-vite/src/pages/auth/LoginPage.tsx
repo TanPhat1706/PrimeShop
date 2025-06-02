@@ -9,6 +9,7 @@ import { useCart } from "../../context/CartContext";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Swal from "sweetalert2";
+import { FaUser, FaLock } from "react-icons/fa";
 
 const LoginPage = () => {
   const [loginData, setLoginData] = useState({ username: "", password: "" });
@@ -36,9 +37,9 @@ const LoginPage = () => {
     }
 
     try {
-      setLoading(true);      
+      setLoading(true);
       const res = await api.post("/auth/login", loginData);
-      const { token, user } = res.data;      
+      const { token, user } = res.data;
       login(user, token);
       Swal.fire({
         icon: 'success',
@@ -50,7 +51,7 @@ const LoginPage = () => {
       setTimeout(() => {
         navigate(from, { replace: true });
       }, 1000);
-    } catch (err : any) {
+    } catch (err: any) {
       setError(err.response?.data?.message || "Đăng nhập thất bại!");
     } finally {
       setLoading(false);
@@ -60,21 +61,41 @@ const LoginPage = () => {
   return (
     <>
       <ToastContainer />
-      <AuthForm
-        title="Đăng nhập tài khoản"
-        onSubmit={handleSubmit}
-        footer={<p>Chưa có tài khoản? <Link to="/register">Đăng ký</Link></p>}
-      >
-        {error && <div className="error-message">{error}</div>}
-        <InputField label="Tên đăng nhập" name="username" type="text" value={loginData.username} onChange={handleChange} />
-        <InputField label="Mật khẩu" name="password" type="password" value={loginData.password} onChange={handleChange} />
-        <Link to="/forgot-password" className="forgot-password">
-          Quên mật khẩu?
-        </Link>
-        <button type="submit" className="auth-btn" disabled={loading}>
-          {loading ? "Đang xử lý..." : "Đăng nhập"}
-        </button>
-      </AuthForm>
+      <div className="auth-page">
+        <AuthForm
+          title="Đăng nhập tài khoản"
+          onSubmit={handleSubmit}
+          footer={<p>Chưa có tài khoản? <Link to="/register">Đăng ký</Link></p>}
+        >
+          {error && <div className="error-message">{error}</div>}
+          <InputField
+            label="Tên đăng nhập"
+            name="username"
+            type="text"
+            value={loginData.username}
+            onChange={handleChange}
+            icon={<FaUser />}
+          />
+          <InputField
+            label="Mật khẩu"
+            name="password"
+            type="password"
+            value={loginData.password}
+            onChange={handleChange}
+            icon={<FaLock />}
+          />
+          <Link to="/forgot-password" className="forgot-password">
+            Quên mật khẩu?
+          </Link>
+          <button type="submit" className="auth-btn" disabled={loading}>
+            {loading ? (
+              <span className="loading-spinner">Đang xử lý...</span>
+            ) : (
+              "Đăng nhập"
+            )}
+          </button>
+        </AuthForm>
+      </div>
     </>
   );
 };

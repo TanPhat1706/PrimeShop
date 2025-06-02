@@ -4,30 +4,13 @@ import api from "../../api/api";
 import "../../pages/news/news.css";
 import { News } from "../../types/news";
 
-// interface NewsItem {
-//   id: number;
-//   title: string;
-//   imageUrl: string | null;
-//   excerpt: string;
-//   createdAt: string;
-// }
-
-interface PageResponse<T> {
-  content: T[];
-  pageable: any;
-  last: boolean;
-  totalElements: number;
-  totalPages: number;
-  number: number; // Số trang hiện tại
-}
-
 const News2 = () => {
   const [newsList, setNewsList] = useState<News[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [currentPage, setCurrentPage] = useState(0); // Trang hiện tại (bắt đầu từ 0)
+  const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
-  const pageSize = 4; // Số tin tức trên mỗi trang (đổi từ 3 thành 5)
+  const pageSize = 4;
 
   useEffect(() => {
     let isMounted = true;
@@ -44,55 +27,29 @@ const News2 = () => {
         setTotalPages(response.data.totalPages);
         setCurrentPage(response.data.number);
         console.log(response.data.content);
+        setLoading(false);
       } catch (error) {
         console.error("Lỗi khi tải tin tức:", error);
+        setError("Không thể tải danh sách tin tức. Vui lòng thử lại sau.");
+        setLoading(false);
       }
     };
 
-    // const fetchNews = async () => {
-    //   try {
-    //     const data = await api.get<PageResponse<NewsItem>>(
-    //       `/news?page=${currentPage}&size=${pageSize}`
-    //     );
-    //     console.log("Dữ liệu từ API:", data);
-    //     if (isMounted) {
-    //       if (Array.isArray(data.content)) {
-    //         setNewsList(data.content); // Lấy mảng từ data.content
-    //         setTotalPages(data.totalPages); // Cập nhật tổng số trang
-    //       } else {
-    //         throw new Error("Dữ liệu content không phải mảng.");
-    //       }
-    //       setLoading(false);
-    //     }
-    //   } catch (err: any) {
-    //     if (isMounted) {
-    //       const errorMessage =
-    //         err.response?.data?.message ||
-    //         err.message ||
-    //         "Không thể tải danh sách tin tức. Vui lòng thử lại sau.";
-    //       console.error("Lỗi khi gọi API:", err);
-    //       setError(errorMessage);
-    //       setLoading(false);
-    //     }
-    //   }
-    // };
-
     fetchNews();
-    console.log(newsList);
 
     return () => {
       isMounted = false;
     };
-  }, [currentPage, 5]);
+  }, [currentPage]);
 
-  // if (loading) {
-  //   return (
-  //     <div className="news-page-container">
-  //       <h1 className="news-title-page">📰 Tin Tức Công Nghệ</h1>
-  //       <p>Đang tải...</p>
-  //     </div>
-  //   );
-  // }
+  if (loading) {
+    return (
+      <div className="news-page-container">
+        <h1 className="news-title-page">📰 Tin Tức Công Nghệ</h1>
+        <p>Đang tải...</p>
+      </div>
+    );
+  }
 
   if (error) {
     return (
@@ -138,7 +95,6 @@ const News2 = () => {
           ))
         )}
       </div>
-      {/* Phân trang */}
       <div className="pagination">
         <button
           onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 0))}

@@ -69,20 +69,12 @@ const HomePage: React.FC = () => {
     fetchNews();
     console.log(news);
   }, []);
-  // Lấy danh mục từ mockProducts
-  // const categories = Array.from(new Set(mockProducts.map((p) => p.category)));
 
-  // Lọc sản phẩm Hot Sale (ví dụ: sản phẩm có discount cao nhất)
-  // const hotSaleProducts = [...mockProducts]
-  //   .sort((a, b) => b.discount - a.discount)
-  //   .slice(0, 3); // Lấy 3 sản phẩm có discount cao nhất
-
-  // Lọc sản phẩm theo danh mục
   const filteredProducts = mockProducts.filter(
     (product) => product.category === selectedCategory
   );
 
-  // Timer cho Hot Sale
+  // Timer cho Khuyến Mãi Online
   useEffect(() => {
     const timer = setInterval(() => {
       setTimeLeft((prevTime) => (prevTime > 0 ? prevTime - 1 : 0));
@@ -101,29 +93,23 @@ const HomePage: React.FC = () => {
 
   return (
     <div className="body-container">
-      {/* HOT SALE */}
-      <section className="hot-sale-container">
-        <h2 className="hot-sale-title">🔥 HOT SALE</h2>
-        <div className="countdown-timer">{formatTime(timeLeft)}</div>
-        <div className="hot-sale-products">
-          {hotSaleProducts.slice(0, 8).map((product) => (
-            <ProductCard key={product.slug} {...product} />
-          ))}
-        </div>
-        <Link to="/all-products" className="view-all-btn">
-          Xem tất cả sản phẩm
-        </Link>
-      </section>
-
       {/* Danh mục sản phẩm */}
       <section className="product-category">
-        <h1 className="category-title">KHUYẾN MÃI ONLINE</h1>
-        <div className="category-tabs">
+        <div className="category-header">
+          <h1 className="category-title"> 📌 KHUYẾN MÃI ONLINE</h1>
+          <div className="countdown-timer" aria-live="polite">
+            <span className="timer-label">Kết thúc trong:</span>
+            {formatTime(timeLeft)}
+          </div>
+        </div>
+        <div className="category-tabs" role="tablist">
           {categories.map((category) => (
             <button
               key={category}
               className={selectedCategory === category ? "active" : ""}
               onClick={() => setSelectedCategory(category)}
+              role="tab"
+              aria-selected={selectedCategory === category}
             >
               {category}
             </button>
@@ -132,11 +118,11 @@ const HomePage: React.FC = () => {
 
         {/* Hiển thị sản phẩm theo danh mục */}
         <div className="product-list">
-          {discountProducts.filter(product => 
+          {discountProducts.filter(product =>
             selectedCategory === 'Tất cả' || product.category === selectedCategory
           ).length > 0 ? (
             discountProducts
-              .filter(product => 
+              .filter(product =>
                 selectedCategory === 'Tất cả' || product.category === selectedCategory
               )
               .slice(0, 8)
@@ -154,9 +140,22 @@ const HomePage: React.FC = () => {
         </Link>
       </section>
 
+      {/* HOT SALE */}
+      <section className="hot-sale-container">
+        <h2 className="hot-sale-title">🔥 HOT SALE</h2>
+        <div className="hot-sale-products">
+          {hotSaleProducts.slice(0, 8).map((product) => (
+            <ProductCard key={product.slug} {...product} />
+          ))}
+        </div>
+        <Link to="/all-products" className="view-all-btn">
+          Xem tất cả sản phẩm
+        </Link>
+      </section>
+
       {/* Tin tức sản phẩm công nghệ */}
       <section className="tech-news">
-        <h1 className="news-title">Tin tức sản phẩm công nghệ</h1>
+        <h1 className="news-title">📰 Tin tức sản phẩm công nghệ</h1>
         <div className="news-content">
           <div className="news-text">
             <p>
@@ -183,7 +182,7 @@ const HomePage: React.FC = () => {
 
       {/* Tin tức công nghệ */}
       <section className="general-tech-news">
-        <h1 className="news-title">Tin tức công nghệ</h1>
+        <h1 className="news-title">🌐Tin tức công nghệ</h1>
         <div className="news-list">
           {news.slice(0, 2).map((news) => (
             <Link key={news.id} to={`/news/${news.id}`} className="news-item">

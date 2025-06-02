@@ -14,7 +14,6 @@ import ForgotPasswordPage from "../pages/auth/ForgotPasswordPage";
 import OrderTrackingPages from "../pages/OrderTrackingPage";
 import AccountPage from "../pages/AccountPage";
 import WishList from "../pages/WishListPage";
-import ProductsDetailsPage from "../pages/product/ProductsDetails";
 import ProductDetailPage from "../pages/product/ProductDetail";
 // import NewsDetail from "../pages/news/NewsDetail";
 import CheckoutPage from "../pages/checkout/CheckoutPage";

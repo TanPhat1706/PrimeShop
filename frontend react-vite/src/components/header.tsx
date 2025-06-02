@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { FaPhone, FaStore, FaBriefcase, FaShoppingCart, FaHeart, FaUser, FaBars, FaSearch, FaSignOutAlt } from "react-icons/fa";
+import { FaPhone, FaStore, FaBriefcase, FaShoppingCart, FaHeart, FaUser, FaBars, FaSearch, FaSignOutAlt, FaChevronDown } from "react-icons/fa";
 import "../assets/css/header.css";
 import logo from "../assets/images/P.png";
 import { User } from "../types/user";
@@ -11,12 +11,24 @@ import Swal from "sweetalert2";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isStoreDropdownOpen, setIsStoreDropdownOpen] = useState(false);
   const { user, logout } = useAuth();
   const [cartItemCount, setCartItemCount] = useState(0);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+
+  const toggleStoreDropdown = () => {
+    setIsStoreDropdownOpen(!isStoreDropdownOpen);
+  };
+
+  // Mock data: Danh sách địa chỉ cửa hàng
+  const storeLocations = [
+    { name: "PrimeShop Quận 1", address: "123 Đường Lê Lợi, Quận 1, TP. Hồ Chí Minh" },
+    { name: "PrimeShop Quận 7", address: "456 Đường Nguyễn Hữu Thọ, Quận 7, TP. Hồ Chí Minh" },
+    { name: "PrimeShop Hà Nội", address: "789 Đường Giải Phóng, Quận Hoàng Mai, Hà Nội" },
+  ];
 
   return (
     <header className="header">
@@ -27,9 +39,22 @@ const Header = () => {
           <p className="hotline">
             <FaPhone className="icon" /> <span className="bold">19000 9099</span>
           </p>
-          <button className="btn">
-            <FaStore className="icon" /> Hệ thống cửa hàng
-          </button>
+          <div className="store-dropdown">
+            <button className="btn" onClick={toggleStoreDropdown}>
+              <FaStore className="icon" /> Hệ thống cửa hàng
+              <FaChevronDown className={`dropdown-icon ${isStoreDropdownOpen ? "open" : ""}`} />
+            </button>
+            {isStoreDropdownOpen && (
+              <div className="dropdown-menu">
+                {storeLocations.map((store, index) => (
+                  <div key={index} className="dropdown-item">
+                    <h4>{store.name}</h4>
+                    <p>{store.address}</p>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
           <button className="btn">
             <FaBriefcase className="icon" /> Tuyển dụng
           </button>
@@ -55,17 +80,20 @@ const Header = () => {
 
         <div className="user-actions">
           {!user ? (
-            <><Link to="/login" className="login-btn">
-              <FaUser className="icon" /> Đăng nhập
-            </Link><Link to="/register" className="login-btn">
+            <>
+              <Link to="/login" className="login-btn">
+                <FaUser className="icon" /> Đăng nhập
+              </Link>
+              <Link to="/register" className="login-btn">
                 <FaUser className="icon" /> Đăng ký
-              </Link></>
+              </Link>
+            </>
           ) : (
             <div className="user-actions">
               <Link to="/account" className="login-btn">
                 <FaUser className="icon" /> {user.username}
               </Link>
-              <Link 
+              <Link
                 to="#"
                 onClick={() => {
                   Swal.fire({
@@ -76,7 +104,7 @@ const Header = () => {
                     cancelButtonText: 'Hủy',
                     confirmButtonColor: '#d33',
                     cancelButtonColor: '#3085d6',
-                    reverseButtons: true
+                    reverseButtons: true,
                   }).then((result) => {
                     if (result.isConfirmed) {
                       logout();
@@ -89,7 +117,6 @@ const Header = () => {
                 <FaSignOutAlt className="icon" /> Đăng xuất
               </Link>
             </div>
-            
           )}
           <Link to={user ? "/cart" : "/login"} className="cart-btn">
             <FaShoppingCart className="icon" /> Giỏ hàng
@@ -145,9 +172,22 @@ const Header = () => {
           <Link to="/cart" className="mobile-menu-item">
             <FaShoppingCart className="icon" /> Giỏ hàng {cartItemCount > 0 && `(${cartItemCount})`}
           </Link>
-          <button className="mobile-menu-btn">
-            <FaStore className="icon" /> Hệ thống cửa hàng
-          </button>
+          <div className="mobile-store-dropdown">
+            <button className="mobile-menu-btn" onClick={toggleStoreDropdown}>
+              <FaStore className="icon" /> Hệ thống cửa hàng
+              <FaChevronDown className={`dropdown-icon ${isStoreDropdownOpen ? "open" : ""}`} />
+            </button>
+            {isStoreDropdownOpen && (
+              <div className="mobile-dropdown-menu">
+                {storeLocations.map((store, index) => (
+                  <div key={index} className="mobile-dropdown-item">
+                    <h4>{store.name}</h4>
+                    <p>{store.address}</p>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
           <button className="mobile-menu-btn">
             <FaBriefcase className="icon" /> Tuyển dụng
           </button>

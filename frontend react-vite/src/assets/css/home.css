@@ -3,91 +3,53 @@
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #f9f9f9;
-  color: #333;
+  background: linear-gradient(135deg, #e6f0fa 0%, #f9fafb 100%);
+  color: #1F2937;
   line-height: 1.6;
-  padding-top: 80px; /* Thêm padding-top để tránh đụng header sticky */
 }
 
-/* HOT SALE */
-.hot-sale-container {
-  border: 2px solid #111827;
-  padding: 40px 30px;
-  text-align: center;
-  position: sticky;
-  margin: 40px auto;
-  max-width: 1200px;
-  background-color: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transition: box-shadow 0.3s ease;
-}
-
-.hot-sale-container:hover {
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-}
-
-.hot-sale-title {
-  position: absolute;
-  top: 0px;
-  left: 20px;
-  font-size: 32px;
-  font-weight: 700;
-  color: #ff0000;
-  background-color: #ffffff;
-  padding: 0 15px;
-  transition: color 0.3s ease;
-}
-
-.hot-sale-title:hover {
-  color: #e60000;
-}
-
-.countdown-timer {
-  position: absolute;
-  top: 5px;
-  right: 20px;
-  font-size: 22px;
-  color: #ff0000;
-  font-weight: 700;
-  background-color: #ffffff;
-  padding: 0 15px;
-  border-radius: 6px;
-}
-
-.hot-sale-products {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 25px;
-  margin-top: 40px;
-}
-
-/* Danh mục sản phẩm */
+/* Danh mục sản phẩm (Khuyến Mãi Online) */
 .product-category {
-  max-width: 1200px;
-  margin: 40px auto;
-  padding: 30px;
-  background-color: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  max-width: 1280px;
+  margin: 2.5rem auto;
+  padding: 2rem;
+  background: linear-gradient(135deg, #ffffff 0%, #f9fafb 100%);
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.product-category:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  transform: translateY(-3px);
+}
+
+.category-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
 }
 
 .category-title {
-  font-size: 28px;
+  font-size: 1.75rem;
   font-weight: 700;
-  color: #111827;
-  margin-bottom: 25px;
+  color: #DC2626;
   text-align: center;
   position: relative;
-  padding-bottom: 10px;
+  padding-bottom: 0.75rem;
+  flex: 1;
 }
 
 .category-title::after {
   content: "";
   position: absolute;
-  width: 100px;
+  width: 80px;
   height: 3px;
-  background-color: #ff5722;
+  background: aqua;
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
@@ -95,79 +57,165 @@
 }
 
 .category-title:hover::after {
-  width: 150px;
+  width: 120px;
+}
+
+.countdown-timer {
+  font-size: 1.5rem;
+  color: #DC2626;
+  font-weight: 700;
+  background: linear-gradient(135deg, #ffffff 0%, #f9fafb 100%);
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  animation: pulse 2s infinite;
+}
+
+.timer-label {
+  font-size: 1rem;
+  color: #6B7280;
+  font-weight: 500;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 .category-tabs {
   display: flex;
   justify-content: center;
-  gap: 15px;
-  margin-bottom: 30px;
+  gap: 1rem;
+  margin-bottom: 2rem;
   flex-wrap: wrap;
 }
 
 .category-tabs button {
-  padding: 12px 24px;
-  border: 1px solid #ddd;
-  background: #f9f9f9;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  background: #E5E7EB;
   border-radius: 8px;
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .category-tabs button:hover {
-  background: #e6f0fa;
-  border-color: #3498db;
+  background: #D1D5DB;
   transform: translateY(-2px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 .category-tabs button.active {
-  background: #3498db;
-  color: #fff;
-  border-color: #3498db;
+  background: linear-gradient(90deg, #1E3A8A 0%, #2563EB 100%);
+  color: #FFFFFF;
   transform: translateY(-2px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.category-tabs button:focus {
+  outline: 2px solid #1E3A8A;
+  outline-offset: 2px;
 }
 
 .product-list {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 25px;
-  margin-bottom: 30px;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
 }
 
 .no-product {
-  font-size: 16px;
-  color: #666;
+  font-size: 1rem;
+  color: #6B7280;
   text-align: center;
-  padding: 20px;
+  padding: 1.5rem;
+}
+
+/* HOT SALE */
+.hot-sale-container {
+  padding: 3rem 2rem;
+  text-align: center;
+  margin: 2.5rem auto;
+  max-width: 1280px;
+  background: linear-gradient(135deg, #ffffff 0%, #f9fafb 100%);
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.hot-sale-container:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  transform: translateY(-3px);
+}
+
+.hot-sale-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #DC2626;
+  margin-bottom: 1.5rem;
+  position: relative;
+  padding-bottom: 0.75rem;
+  text-align: center;
+}
+
+.hot-sale-title::after {
+  content: "";
+  position: absolute;
+  width: 80px;
+  height: 3px;
+  background: aqua;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  transition: width 0.3s ease;
+}
+
+.hot-sale-title:hover::after {
+  width: 120px;
+}
+
+.hot-sale-products {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
 }
 
 /* Tech News */
 .tech-news {
-  padding: 50px 20px;
-  background-color: #f9f9f9;
-  max-width: 1200px;
+  padding: 3rem 1.5rem;
+  max-width: 1280px;
   margin: 0 auto;
 }
 
 .news-title {
-  font-size: 28px;
+  font-size: 1.75rem;
   font-weight: 700;
-  color: #111827;
-  margin-bottom: 25px;
+  color: #1E3A8A;
+  margin-bottom: 1.5rem;
   position: relative;
   text-align: center;
-  padding-bottom: 10px;
+  padding-bottom: 0.75rem;
 }
 
 .news-title::after {
   content: "";
   position: absolute;
-  width: 100px;
+  width: 80px;
   height: 3px;
-  background-color: #ff5722;
+  background: aqua;
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
@@ -175,48 +223,55 @@
 }
 
 .news-title:hover::after {
-  width: 150px;
+  width: 120px;
 }
 
 .news-content {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 30px;
+  gap: 2rem;
   flex-wrap: wrap;
-  background-color: #ffffff;
-  padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(135deg, #ffffff 0%, #f9fafb 100%);
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.news-content:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  transform: translateY(-3px);
 }
 
 .news-text {
   flex: 1;
   min-width: 300px;
-  padding-right: 20px;
+  padding-right: 1.5rem;
 }
 
 .news-text p {
-  font-size: 16px;
+  font-size: 1rem;
   line-height: 1.7;
-  color: #555;
-  margin-bottom: 20px;
+  color: #6B7280;
+  margin-bottom: 1.25rem;
 }
 
 .news-readmore-btn {
   display: inline-block;
-  padding: 12px 24px;
-  background-color: #1e3a8a;
-  color: #ffffff;
-  border-radius: 6px;
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(90deg, #1E3A8A 0%, #2563EB 100%);
+  color: #FFFFFF;
+  border-radius: 8px;
   text-decoration: none;
   font-weight: 500;
   transition: all 0.3s ease;
 }
 
 .news-readmore-btn:hover {
-  background-color: #3b82f6;
+  background: linear-gradient(90deg, #2563EB 0%, #1E3A8A 100%);
   transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
 }
 
 .news-image {
@@ -226,9 +281,9 @@
 
 .news-image img {
   width: 100%;
-  height: 300px;
+  height: 320px;
   object-fit: cover;
-  border-radius: 10px;
+  border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease;
 }
@@ -239,31 +294,30 @@
 
 /* Tin tức công nghệ */
 .general-tech-news {
-  padding: 50px 20px;
-  background-color: #f9f9f9;
-  max-width: 1200px;
+  padding: 3rem 1.5rem;
+  max-width: 1280px;
   margin: 0 auto;
 }
 
 .news-list {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 25px;
-  margin-bottom: 30px;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
 }
 
 .news-item {
-  background-color: #ffffff;
+  background: linear-gradient(135deg, #ffffff 0%, #f9fafb 100%);
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   text-decoration: none;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 .news-item:hover {
   transform: translateY(-5px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
 
 .news-image {
@@ -278,25 +332,25 @@
 }
 
 .news-info {
-  padding: 15px;
+  padding: 1rem;
 }
 
 .news-item-title {
-  font-size: 18px;
+  font-size: 1.125rem;
   font-weight: 600;
-  color: #333;
-  margin-bottom: 10px;
+  color: #1E3A8A;
+  margin-bottom: 0.75rem;
   transition: color 0.3s ease;
 }
 
 .news-item:hover .news-item-title {
-  color: #1e3a8a;
+  color: #2563EB;
 }
 
 .news-excerpt {
-  font-size: 14px;
-  color: #666;
-  margin-bottom: 10px;
+  font-size: 0.875rem;
+  color: #6B7280;
+  margin-bottom: 0.75rem;
   line-height: 1.5;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -306,8 +360,8 @@
 }
 
 .news-date {
-  font-size: 12px;
-  color: #999;
+  font-size: 0.75rem;
+  color: #9CA3AF;
 }
 
 /* Nút xem tất cả */
@@ -315,21 +369,20 @@
   display: block;
   width: fit-content;
   margin: 0 auto;
-  padding: 12px 24px;
-  border: 1px solid #111827;
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(90deg, #1E3A8A 0%, #2563EB 100%);
+  color: #FFFFFF;
+  border-radius: 8px;
   text-decoration: none;
-  background: #111827;
-  color: #ffffff;
-  border-radius: 6px;
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 500;
   transition: all 0.3s ease;
 }
 
 .view-all-btn:hover {
-  background: #1e3a8a;
-  border-color: #1e3a8a;
+  background: linear-gradient(90deg, #2563EB 0%, #1E3A8A 100%);
   transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
 }
 
 /* Responsive Design */
@@ -341,30 +394,34 @@
   }
 
   .news-image img {
-    height: 250px;
+    height: 280px;
   }
 }
 
 @media (max-width: 768px) {
   .body-container {
-    padding-top: 60px; /* Giảm padding-top trên mobile */
+    padding-top: 60px;
   }
 
   .hot-sale-container,
   .product-category,
   .tech-news,
   .general-tech-news {
-    padding: 30px 15px;
+    padding: 2rem 1rem;
   }
 
   .hot-sale-title,
   .category-title,
   .news-title {
-    font-size: 24px;
+    font-size: 1.5rem;
   }
 
   .countdown-timer {
-    font-size: 18px;
+    font-size: 1.25rem;
+  }
+
+  .timer-label {
+    font-size: 0.875rem;
   }
 
   .news-content {
@@ -376,7 +433,7 @@
   }
 
   .news-image img {
-    height: 200px;
+    height: 220px;
   }
 }
 
@@ -384,22 +441,25 @@
   .hot-sale-title,
   .category-title,
   .news-title {
-    font-size: 20px;
+    font-size: 1.25rem;
   }
 
   .countdown-timer {
-    font-size: 16px;
-    top: 0;
+    font-size: 1rem;
+  }
+
+  .timer-label {
+    font-size: 0.75rem;
   }
 
   .view-all-btn {
-    padding: 10px 20px;
-    font-size: 14px;
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
   }
 
   .category-tabs button {
-    font-size: 14px;
-    padding: 8px 15px;
+    font-size: 0.875rem;
+    padding: 0.5rem 1rem;
   }
 
   .news-image img {
