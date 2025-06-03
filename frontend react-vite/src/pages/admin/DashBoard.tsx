@@ -8,6 +8,8 @@ const DashBoard = () => {
   const [productCount, setProductCount] = useState<number | null>(null);
   const [orderCount, setOrderCount] = useState<number | null>(null);
   const [userCount, setUserCount] = useState<number | null>(null);
+  const [newsCount, setNewsCount] = useState<number | null>(null);
+  const [categoriesCount, setCategoriesCount] = useState<number | null>(null);
   const navigate = useNavigate();
 
   const getTotalProductsCount = async () => {
@@ -25,11 +27,23 @@ const DashBoard = () => {
     setUserCount(response.data);
   }
 
+  const getTotalNewsCount = async () => {
+    const response = await api.get('/news/count');
+    setNewsCount(response.data);
+  }
+
+  const getTotalCategoriesCount = async () => {
+    const response = await api.get('/category/count');
+    setCategoriesCount(response.data);
+  }
+
   useEffect(() => {
     getTotalProductsCount();
     getTotalOrdersCount();
     getTotalUsersCount();
-    console.log(productCount, orderCount, userCount);
+    getTotalNewsCount();
+    getTotalCategoriesCount();
+    console.log(productCount, orderCount, userCount, newsCount, categoriesCount);
   }, []);
   
   return (
@@ -60,14 +74,14 @@ const DashBoard = () => {
         <div className="card" onClick={() => navigate('/admin/news')} style={{ cursor: 'pointer' }}>
           <span className="card-icon">📰</span>
           <div className="card-content">
-            <p>{productCount} tin tức</p>
+            <p>{newsCount} tin tức</p>
             <p>Tổng số tin tức</p>
           </div>
         </div>
         <div className="card" onClick={() => navigate('/admin/categories')} style={{ cursor: 'pointer' }}>
           <span className="card-icon">📚</span>
           <div className="card-content">
-            <p>{productCount} danh mục</p>
+            <p>{categoriesCount} danh mục</p>
             <p>Tổng số danh mục</p>
           </div>
         </div>

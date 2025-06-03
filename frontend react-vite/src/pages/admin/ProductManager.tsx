@@ -268,7 +268,7 @@ const ProductManager: React.FC = () => {
         <tbody id="specs">
           ${product.specs.map((spec) => `
             <tr>
-              <td><input type="text" name="specName" value="${spec.name}" placeholder="Tên thông số"></td>
+              <td><input type="text" name="specName" value="${spec.name.replace(':', '')}" placeholder="Tên thông số"></td>
               <td><input type="text" name="specValue" value="${spec.value}" placeholder="Giá trị"></td>
             </tr>
           `).join('')}
@@ -633,25 +633,46 @@ const ProductManager: React.FC = () => {
               />
             </div>
             <div className="form-group">
-              <label>Đặc điểm kỹ thuật (Dòng 1: name, Dòng 2: value)</label>
-              {newProduct.specs.map((spec, index) => (
-                <div key={index} className="form-group">
-                  <input
-                    type="text"
-                    value={spec.name}
-                    onChange={(e) => handleSpecChange(index, 'name', e.target.value)}
-                  />
-                  <input
-                    type="text"
-                    value={spec.value}
-                    onChange={(e) => handleSpecChange(index, 'value', e.target.value)}
-                  />       
-                  <button type="button" onMouseDown={() => removeSpecRow(index)} className="btn btn-danger">
-                    Xóa dòng
-                  </button>
-                </div>
-              ))}
-              <div>
+              <label>Đặc điểm kỹ thuật</label>
+              <table className="specs-table">
+                <thead>
+                  <tr>
+                    <th>Tên thông số</th>
+                    <th>Giá trị</th>
+                    <th>Thao tác</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {newProduct.specs.map((spec, index) => (
+                    <tr key={index}>
+                      <td>
+                        <input
+                          type="text"
+                          value={spec.name}
+                          onChange={(e) => handleSpecChange(index, 'name', e.target.value.replace(':', ''))}
+                        />
+                      </td>
+                      <td>
+                        <input
+                          type="text"
+                          value={spec.value}
+                          onChange={(e) => handleSpecChange(index, 'value', e.target.value.replace(':', ''))}
+                        />
+                      </td>
+                      <td>
+                        <button 
+                          type="button" 
+                          onMouseDown={() => removeSpecRow(index)} 
+                          className="btn btn-danger"
+                        >
+                          Xóa
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              <div className="mt-2">
                 <button onMouseDown={addSpecRow} className="btn btn-primary">
                   Thêm dòng
                 </button>
@@ -659,7 +680,27 @@ const ProductManager: React.FC = () => {
             </div>
             
             <div className="flex justify-start">
-              <button type="submit" className="btn btn-primary">
+              <button 
+                type="submit" 
+                className="btn btn-primary"
+                onClick={(e) => {
+                  e.preventDefault();
+                  Swal.fire({
+                    title: 'Xác nhận thêm sản phẩm?',
+                    text: "Bạn có chắc chắn muốn thêm sản phẩm này?",
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Xác nhận',
+                    cancelButtonText: 'Hủy'
+                  }).then((result) => {
+                    if (result.isConfirmed) {
+                      handleSubmit(e);
+                    }
+                  });
+                }}
+              >
                 Thêm sản phẩm
               </button>
             </div>

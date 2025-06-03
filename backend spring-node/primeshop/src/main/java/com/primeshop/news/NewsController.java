@@ -17,10 +17,12 @@ import org.springframework.web.bind.annotation.*;
 public class NewsController {
 
     private final NewsService newsService;
+    private final NewsRepository newsRepository;
 
     @Autowired
-    public NewsController(NewsService newsService) {
+    public NewsController(NewsService newsService, NewsRepository newsRepository) {
         this.newsService = newsService;
+        this.newsRepository = newsRepository;
     }
 
     @GetMapping
@@ -71,5 +73,10 @@ public class NewsController {
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    }
+
+    @GetMapping("/count")
+    public ResponseEntity<?> countNews() {
+        return ResponseEntity.ok(newsRepository.countByNews());
     }
 }

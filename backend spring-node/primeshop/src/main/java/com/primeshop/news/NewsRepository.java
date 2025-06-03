@@ -22,4 +22,7 @@ public interface NewsRepository extends JpaRepository<News, Long> {
     @Modifying
     @Query("UPDATE News n SET n.viewCount = n.viewCount + 1 WHERE n.id = :id")
     void incrementViewCount(Long id);
+
+    @Query("SELECT COUNT(n) FROM News n")
+    Long countByNews();
 }

@@ -14,4 +14,7 @@ public interface CategoryRepo extends JpaRepository<Category, Long> {
 
     @Query(value = "SELECT DISTINCT c.slug from Category c")
     List<String> findDistinctSlugs();
+
+    @Query("SELECT COUNT(c) FROM Category c")
+    Long countByCategory();
 }

@@ -28,5 +28,7 @@ public class CategoryService {
         return categoryRepo.findDistinctSlugs();
     }
 
-    
+    public Long countCategory() {
+        return categoryRepo.countByCategory();
+    }
 }
