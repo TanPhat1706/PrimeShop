@@ -204,9 +204,8 @@ const CheckoutPage = () => {
                 onChange={handleChange}
                 disabled={loading}
               >
-                <option value="cod">Thanh toán khi nhận hàng (COD)</option>
                 <option value="bank">Chuyển khoản ngân hàng</option>
-                <option value="wallet">Ví điện tử</option>
+                <option value="cod">Thanh toán tại cửa hàng</option>
               </select>
             </div>
             <button type="submit" className="auth-btn" disabled={loading}>
