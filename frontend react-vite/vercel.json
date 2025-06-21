@@ -1,6 +1,5 @@
 {
   "rewrites": [
-    { "source": "/assets/:path*", "destination": "/assets/:path*" },
-    { "source": "/:path*", "destination": "/index.html" }
+    { "source": "/assets/:path*", "destination": "/assets/:path*" }
   ]
 }
