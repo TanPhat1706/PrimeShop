@@ -7,7 +7,6 @@ import NotFound from "./pages/NotFound";
 
 const App = () => {
   return (
-    <BrowserRouter>
     <AuthProvider>
       <CartProvider>
         <Router>
@@ -24,7 +23,6 @@ const App = () => {
         </Router>
       </CartProvider>
     </AuthProvider>
-    </BrowserRouter>
   );
 };
 
