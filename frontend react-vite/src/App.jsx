@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, BrowserRouter } from "react-router-dom";
 import AdminRoutes from "./routes/AdminRoutes";
 import UserRoutes from "./routes/UserRoutes";
 import { AuthProvider } from "./context/AuthContext";
@@ -7,6 +7,7 @@ import NotFound from "./pages/NotFound";
 
 const App = () => {
   return (
+    <BrowserRouter>
     <AuthProvider>
       <CartProvider>
         <Router>
@@ -23,6 +24,7 @@ const App = () => {
         </Router>
       </CartProvider>
     </AuthProvider>
+    </BrowserRouter>
   );
 };
 
