@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, BrowserRouter } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import AdminRoutes from "./routes/AdminRoutes";
 import UserRoutes from "./routes/UserRoutes";
 import { AuthProvider } from "./context/AuthContext";
@@ -9,7 +9,6 @@ const App = () => {
   return (
     <AuthProvider>
       <CartProvider>
-        <Router>
           <Routes>
             {/* 👨‍💼 Admin luôn đặt trước */}
             <Route path="/admin/*" element={<AdminRoutes />} />
@@ -20,7 +19,6 @@ const App = () => {
             {/* 404 Page */}
             <Route path="*" element={<NotFound />} />
           </Routes>
-        </Router>
       </CartProvider>
     </AuthProvider>
   );
