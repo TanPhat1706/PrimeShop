@@ -67,7 +67,6 @@ const HomePage: React.FC = () => {
     fetchHotSaleProducts();
     fetchDiscountProducts();
     fetchNews();
-    console.log(news);
   }, []);
 
   const filteredProducts = mockProducts.filter(
