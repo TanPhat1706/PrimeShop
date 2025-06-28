@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useCartStore } from "../../store/cartStore";
 import styles from "./styles/ProductsDetails.module.css";
 import api from "../../api/api";
-import { Product } from "../../components/product-card/product-card";
+// import { Product } from "../../components/product-card/product-card";
+import { Product } from "../../types/product";
 import { Review } from "../../types/review";
 import { Button, Card, CardContent, TextField } from "@mui/material";
 import StarRatings from 'react-star-ratings';
@@ -22,7 +22,6 @@ const mockPromotions = [
 const ProductDetailPage: React.FC = () => {
   const { slug } = useParams();
   const navigate = useNavigate();
-  const { addToCart } = useCartStore();
   const [product, setProduct] = useState<Product | null>(null);
   const [productImages, setProductImages] = useState<string[]>([]);
   const [reviews, setReviews] = useState<Review[]>([]);
@@ -122,8 +121,6 @@ const ProductDetailPage: React.FC = () => {
       toast.error("Không thể gửi đánh giá.");
     }
   };
-
-  const [showAll, setShowAll] = useState(false);
 
   if (loading) {
     return (

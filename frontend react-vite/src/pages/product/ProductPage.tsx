@@ -2,13 +2,9 @@ import React, { useState, useEffect, use } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ProductCard from "../../components/product-card/product-card";
-import { mockProducts } from "../../mocks/mockData";
 import styles from "./styles/ProductsPage.module.css";
-import { Product } from "../../types/product";
-import { Category, getAllCategories } from "../../api/category.api";
-import { getAllProducts } from "../../api/product.api";
+import { Category } from "../../api/category.api";
 import api from "../../api/api";
-import { fetchProducts, fetchCategories, fetchBrands } from "../../api/product.api";
 import { useSearchParams } from "react-router-dom";
 
 // const ProductsPage: React.FC = () => {
