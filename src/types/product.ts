@@ -1,24 +1,33 @@
-import { components } from "./api-types";
 
-// export type Product = components["schemas"]["Product"];
+export interface ProductCardType {
+  slug: string;
+  name: string;
+  brand: string;
+  price: number;
+  discountPrice: number;
+  isDiscounted: boolean;
+  discountPercent: number;
+  imageUrl: string;
+  sold: number;
+}
 
 export interface Product {
   id: string;
   slug: string;
   name: string;
   price: number;
-  originalPrice: number;
+  discountPrice: number;
+  isDiscounted: boolean;
   discountPercent: number;
-  images: string[];
+  imageUrl: string[];
+  imageUrls: string[];
   description: string;
   category: string;
   brand: string;
-  // screenType: string;
-  // screenSize: string;
-  // storageOptions: string[];
   rating: number;
   stock: number;
   sold: number;
+  specs: ProductSpecs[];
 }
 
 export interface ProductFilter {
@@ -28,7 +37,7 @@ export interface ProductFilter {
   maxPrice?: number;
 }
 
-export interface ProductSpec {
+export interface ProductSpecs {
   name: string;
   value: string;
 }

@@ -5,54 +5,23 @@ import "react-toastify/dist/ReactToastify.css";
 import styles from "./styles/ProductCard.module.css";
 import { components } from "../../types/api-types";
 import { Review } from "../../types/review";
+import { ProductCardType } from "../../types/product";
 
 export type Product = components["schemas"]["ProductResponse"]
 export type ProductSpecs = components["schemas"]["ProductSpecResponse"]
 
-// Định nghĩa type cho props
-interface ProductCardProps {
-  // id: string;
-  name: string;
-  price: number;
-  originalPrice: number;
-  discount: number;
-  discountPrice: number;
-  image: string;
-  brand: string;
-  // screenType: string;
-  // screenSize: string;
-  // storageOptions: string[];
-  reviews: Review[];
-  sold: number;
-}
 
-interface Spec {
-  name: String,
-  value: String
-}
-
-const ProductCard: React.FC<Product> = ({
+const ProductCard: React.FC<ProductCardType> = ({
   // id,
   name,
   slug,
   brand,
   price,
   discountPercent,
+  isDiscounted,
   discountPrice,
   imageUrl,
-  stock,
-  category,
-  specs,
-  isDiscounted,
-  rating,
   sold,
-  // originalPrice,
-  // discount,
-  // screenType,
-  // screenSize,
-  // storageOptions,
-  // rating,
-  // sold,
 }) => {
   // const [selectedStorage, setSelectedStorage] = useState<string>(storageOptions[0]);
 
