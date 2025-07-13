@@ -7,6 +7,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Swal from 'sweetalert2';
 import Button from '@mui/material/Button';
+import VoucherList from '../components/VoucherList';
 
 const AccountPage = () => {
   const [activeTab, setActiveTab] = useState('profile');
@@ -148,6 +149,12 @@ const AccountPage = () => {
           >
             Đơn hàng
           </button>
+          <button
+            className={`tab-item ${activeTab === 'vouchers' ? 'active' : ''}`}
+            onClick={() => setActiveTab('vouchers')}
+          >
+            Mã khuyến mãi
+          </button>
         </div>
 
         {/* Tab Content */}
@@ -268,6 +275,12 @@ const AccountPage = () => {
             ) : (
               <p className="no-orders">Bạn chưa có giao dịch nào.</p>
             )}
+          </div>
+
+          {/* Danh sách mã khuyến mãi */}
+          <div className={`voucher-list ${activeTab === 'vouchers' ? 'active' : ''}`}>
+            <h3 className="mb-3">Danh sách mã khuyến mãi</h3>
+            <VoucherList showAllVouchers={true} />
           </div>
         </div>
       </div>

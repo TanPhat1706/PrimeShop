@@ -7,6 +7,7 @@ import UserManager from "../pages/admin/UserManager";
 import AdminRoute from "../components/AdminRoute";
 import CategoryManager from "../pages/admin/CategoryManager";
 import NewsManager from "../pages/admin/NewsManager";
+import VouchersManager from "../pages/admin/VouchersManager";
 
 const AdminRoutes = () => {
   return (
@@ -68,6 +69,17 @@ const AdminRoutes = () => {
           <AdminRoute>
             <AdminLayout>
               <NewsManager />
+            </AdminLayout>
+          </AdminRoute>
+        }
+      />
+
+      <Route
+        path="vouchers"
+        element={
+          <AdminRoute>
+            <AdminLayout>
+              <VouchersManager />
             </AdminLayout>
           </AdminRoute>
         }

@@ -49,6 +49,11 @@ const AdminLayout = ({ children }) => {
                 Danh mục
               </NavLink>
               </li>
+              <li>
+                <NavLink to="/admin/vouchers" className={({ isActive }) => (isActive ? 'active' : '')}>
+                  Voucher
+                </NavLink>
+              </li>
           </ul>
         </nav>
       </aside>

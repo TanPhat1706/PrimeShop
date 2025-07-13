@@ -65,8 +65,7 @@ const Header = () => {
       <section className="main-header">
         <div className="logo">
           <Link to="/home" className="logo-link">
-            <img src={logo} alt="PrimeShop Logo" className="logo-image" />
-            <span>PRIMESHOP</span>
+            <img src={logo} alt="PrimeShop Logo" className="logo-image enlarged" />
           </Link>
           <p>Mua sắm thông minh, tiện lợi!</p>
         </div>
@@ -145,6 +144,7 @@ const Header = () => {
           ) : (
             <Link to="/login" className="nav-item">Tài khoản</Link>
           )}
+          <Link to="/minigame-list" className="nav-item">Mini Game</Link>
         </div>
       </nav>
 

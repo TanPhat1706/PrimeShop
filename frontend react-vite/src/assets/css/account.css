@@ -222,6 +222,22 @@
   padding: 1.25rem;
 }
 
+/* Danh sách mã khuyến mãi */
+.voucher-list {
+  display: none;
+}
+
+.voucher-list.active {
+  display: block;
+}
+
+.voucher-list h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-color);
+  margin-bottom: 1.5rem;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .profile-section {
@@ -265,6 +281,15 @@
 
   .profile-form {
     gap: 1rem;
+  }
+
+  .voucher-list {
+    padding: 0;
+  }
+  
+  .voucher-list h3 {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
   }
 }
 

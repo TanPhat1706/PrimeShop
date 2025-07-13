@@ -69,6 +69,17 @@
     outline: none;
   }
   
+  .input-group input[name="voucher"] {
+    background-color: #F0F9FF;
+    border: 1px dashed #38BDF8; 
+    transition: border 0.3s ease;
+  }
+  
+  .input-group input[name="voucher"]:focus {
+    border-color: #0EA5E9;
+    box-shadow: 0 0 5px rgba(14, 165, 233, 0.3);
+  }
+  
   .error-message {
     color: #DC2626;
     font-size: 14px;
@@ -263,4 +274,93 @@
     .cart-total {
       font-size: 14px;
     }
+  }/* Existing cart styles... */
+
+/* Voucher and Order Summary Styles */
+.order-summary {
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+  border: 1px solid #e9ecef;
+}
+
+.order-summary h3 {
+  margin: 0 0 15px 0;
+  color: #333;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.summary-item:last-child {
+  border-bottom: none;
+}
+
+.summary-item.discount {
+  color: #dc3545;
+  font-weight: 600;
+}
+
+.summary-item.total {
+  font-weight: 700;
+  font-size: 18px;
+  color: #333;
+  border-top: 2px solid #007bff;
+  padding-top: 12px;
+  margin-top: 8px;
+}
+
+.cart-summary {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  height: fit-content;
+  position: sticky;
+  top: 20px;
+}
+
+.checkout-btn {
+  display: block;
+  width: 100%;
+  padding: 15px;
+  background: #007bff;
+  color: white;
+  text-decoration: none;
+  text-align: center;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 16px;
+  transition: background-color 0.3s;
+  margin-top: 20px;
+}
+
+.checkout-btn:hover {
+  background: #0056b3;
+  color: white;
+  text-decoration: none;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .cart-content {
+    flex-direction: column;
   }
+  
+  .cart-summary {
+    position: static;
+    margin-top: 20px;
+  }
+  
+  .order-summary {
+    margin-bottom: 15px;
+  }
+}

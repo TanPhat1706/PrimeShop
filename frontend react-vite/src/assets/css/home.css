@@ -26,12 +26,37 @@
 }
 
 .category-header {
+  width: 100%;
+  position: relative; /* Để chứa timer nằm góc phải trên */
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  flex-wrap: wrap;
-  gap: 1rem;
   margin-bottom: 1.5rem;
+}
+
+.category-header img.banner-image {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.countdown-timer {
+  position: absolute;
+  top: 0rem;
+  right: 1rem;
+  font-size: 1.25rem;
+  color: #DC2626;
+  font-weight: 700;
+  background: linear-gradient(135deg, #ffffff 0%, #f9fafb 100%);
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  animation: pulse 2s infinite;
+  z-index: 2;
+  width: fit-content;
 }
 
 .category-title {
@@ -72,6 +97,7 @@
   align-items: center;
   gap: 0.5rem;
   animation: pulse 2s infinite;
+  transition: all 0.3s ease;
 }
 
 .timer-label {
@@ -384,6 +410,33 @@
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
 }
+.floating-banner {
+  position: fixed;
+  width: 135px;
+  height: 300px;
+  z-index: 999;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.floating-banner:hover {
+  transform: scale(1.05);
+}
+
+.left-fixed {
+  left: 10px;
+}
+
+.right-fixed {
+  right: 10px;
+}
+
+@media (max-width: 1024px) {
+  .floating-banner {
+    display: none;
+  }
+}
+
 
 /* Responsive Design */
 @media (max-width: 1024px) {

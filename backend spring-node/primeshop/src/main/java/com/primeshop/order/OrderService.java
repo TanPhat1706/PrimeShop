@@ -18,6 +18,8 @@ import com.primeshop.product.Product;
 import com.primeshop.product.ProductRepo;
 import com.primeshop.user.User;
 import com.primeshop.user.UserRepo;
+import com.primeshop.voucher.Voucher;
+import com.primeshop.voucher.VoucherService;
 
 import jakarta.transaction.Transactional;
 
@@ -33,6 +35,8 @@ public class OrderService {
     private ProductRepo productRepo;
     @Autowired
     private OrderRepo orderRepo;
+    @Autowired
+    private VoucherService voucherService;
 
 
     @Transactional
@@ -70,25 +74,85 @@ public class OrderService {
             totalAmount = totalAmount.add(orderItem.getTotalPrice());
         }
 
+        // Xử lý voucher - LUÔN TĂNG USED_COUNT KHI ĐẶT HÀNG
+        List<Voucher> appliedVouchers = new ArrayList<>();
+        List<String> voucherCodesToProcess = new ArrayList<>();
+        
+        // Thu thập voucher codes từ cả request và cart
+        if (request.getVoucherCodes() != null && !request.getVoucherCodes().isEmpty()) {
+            System.out.println("🔄 Vouchers from request: " + request.getVoucherCodes());
+            voucherCodesToProcess.addAll(request.getVoucherCodes());
+        }
+        
+        // Nếu không có voucher từ request, lấy từ cart
+        if (voucherCodesToProcess.isEmpty()) {
+            List<Voucher> cartVouchers = cart.getVouchers();
+            if (cartVouchers != null && !cartVouchers.isEmpty()) {
+                System.out.println("🛒 Vouchers from cart: " + cartVouchers.size() + " vouchers");
+                voucherCodesToProcess = cartVouchers.stream()
+                    .map(Voucher::getCode)
+                    .collect(Collectors.toList());
+            }
+        }
+        
+        // Xử lý tất cả voucher codes (tăng used_count)
+        if (!voucherCodesToProcess.isEmpty()) {
+            System.out.println("🎯 Processing vouchers for order (WILL INCREASE USED_COUNT): " + voucherCodesToProcess);
+            
+            try {
+                // Sử dụng method để tăng used_count
+                appliedVouchers = voucherService.processVouchersForOrder(
+                    voucherCodesToProcess, 
+                    totalAmount.doubleValue()
+                );
+                
+                System.out.println("✅ Vouchers processed and used_count increased: " + appliedVouchers.size() + " vouchers");
+                
+                // Log chi tiết từng voucher đã xử lý
+                for (Voucher voucher : appliedVouchers) {
+                    System.out.println("📝 Voucher applied to order: " + voucher.getCode() + 
+                                     " (used_count: " + voucher.getCurrentUsage() + 
+                                     ", max_usage: " + voucher.getMaxUsage() + ")");
+                }
+                
+            } catch (RuntimeException e) {
+                System.err.println("❌ Voucher processing failed: " + e.getMessage());
+                e.printStackTrace(); // In stack trace để debug
+                throw e; // Re-throw để rollback transaction
+            }
+        } else {
+            System.out.println("ℹ️ No vouchers to process");
+        }
+
+        // Tính discountAmount tổng hợp nếu cần
+        BigDecimal discountAmount = cart.getDiscount() != null ? cart.getDiscount() : BigDecimal.ZERO;
+        BigDecimal finalAmount = totalAmount.subtract(discountAmount).max(BigDecimal.ZERO);
+
         Order order = new Order();
         order.setUser(user);
         order.setStatus(OrderStatus.PENDING);
         order.setTotalAmount(totalAmount);
+        order.setDiscountAmount(discountAmount);
+        order.setFinalAmount(finalAmount);
+        order.setVouchers(appliedVouchers); // <-- Gán danh sách voucher
         order.setOrderItems(orderItems);
         order.setFullName(request.getFullName());
         order.setPhoneNumber(request.getPhoneNumber());
         order.setAddress(request.getAddress());
-        if (request.getNote() != null) {
-            order.setNote(request.getNote());
-        } else {
-            order.setNote("Không có");
-        }
+        order.setNote(request.getNote() != null ? request.getNote() : "Không có");
 
         for (OrderItem orderItem : orderItems) {
             orderItem.setOrder(order);
         }
 
+        // Lưu order
         orderRepo.save(order);
+
+        // Xóa voucher khỏi cart và clear cart
+        cart.setVouchers(null);
+        cart.setDiscount(BigDecimal.ZERO);
+        cart.setTotalPrice(BigDecimal.ZERO);
+        cartRepo.save(cart);
         cartItemRepo.deleteAll(cartItems);
 
         return new OrderResponse(order); 

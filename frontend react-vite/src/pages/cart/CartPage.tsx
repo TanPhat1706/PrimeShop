@@ -1,28 +1,59 @@
 import React, { useEffect, useState } from 'react';
-import '../../assets/css/cart.css'; // Import CSS cho trang giỏ hàng
+import '../../assets/css/cart.css';
 import api from '../../api/api';
 import { Cart } from '../../types/cart';
 import { Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import Button from '@mui/material/Button';
+import VoucherComboBox from '../../components/VoucherComboBox';
+
+interface Voucher {
+  id: number;
+  code: string;
+  discountType: 'PERCENT' | 'FIXED' | 'FREESHIP';
+  discountValue: number;
+  minOrderValue: number;
+  startDate: string;
+  endDate: string;
+  maxUsage: number;
+  currentUsage: number;
+  isActive: boolean;
+  isValid: boolean;
+  remainingUsage: number;
+}
+
+interface VoucherInfo {
+  code: string;
+  discountType: 'PERCENT' | 'FIXED' | 'FREESHIP';
+  discountValue: number;
+  minOrderValue: number;
+  isValid: boolean;
+  message?: string;
+}
 
 const CartPage = () => {
   const [cart, setCart] = useState<Cart | null>(null);
   const [loading, setLoading] = useState(false);
-  const paymentMethods = [
-    {
-      id: 1,
-      name: "Thanh toán tiền mặt",
-      description: "Thanh toán tiền mặt khi nhận hàng",
-    },
-  ];
+  const [selectedVouchers, setSelectedVouchers] = useState<Voucher[]>([]);
+  const [shippingFee, setShippingFee] = useState<number>(0);
+  const [freeShippingReason, setFreeShippingReason] = useState<string>('');
+  const [voucherInfoList, setVoucherInfoList] = useState<VoucherInfo[]>([]);
+  const [totalDiscount, setTotalDiscount] = useState(0);
 
   const fetchCart = async () => {
     try {
+      setLoading(true);
       const res = await api.get("/cart");
       setCart(res.data);
+      setShippingFee(res.data.shippingFee || 0);
+      setTotalDiscount(res.data.discount || 0);
+      setVoucherInfoList(res.data.appliedVouchers || []);
+      setFreeShippingReason(res.data.freeShippingReason || "");
+      if (res.data.vouchers) setSelectedVouchers(res.data.vouchers);
     } catch (err) {
       console.error("Lỗi khi tải giỏ hàng:", err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -33,7 +64,7 @@ const CartPage = () => {
   const updateQuantity = async (productSlug: string, delta: number) => {
     try {
       await api.post("/cart/add", { productSlug, quantity: delta });
-      await fetchCart(); // refetch cart after update
+      await fetchCart();
     } catch (err) {
       console.error("Không thể cập nhật số lượng:", err);
     }
@@ -48,20 +79,62 @@ const CartPage = () => {
     }
   };
 
-  if (!cart) return <p>Đang tải giỏ hàng...</p>;
+  const recalculateCartWithVouchers = async (vouchers: Voucher[]) => {
+    try {
+      setLoading(true);
+      const res = await api.post("/cart/apply-multi-voucher", {
+        cartId: cart?.id,
+        voucherCodes: vouchers.map(v => v.code)
+      });
+      setCart(res.data);
+      setSelectedVouchers(res.data.vouchers || vouchers);
+      setShippingFee(res.data.shippingFee || 0);
+      setTotalDiscount(res.data.discount || 0);
+      setVoucherInfoList(res.data.appliedVouchers || []);
+      setFreeShippingReason(res.data.freeShippingReason || "");
+    } catch (err) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Lỗi',
+        text: 'Có lỗi khi áp dụng voucher. Vui lòng thử lại!',
+        confirmButtonColor: '#2563eb',
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleVoucherApplied = async (voucher: Voucher) => {
+    if (selectedVouchers.find(v => v.code === voucher.code)) return;
+    const newList = [...selectedVouchers, voucher];
+    await recalculateCartWithVouchers(newList);
+  };
+
+  const handleVoucherRemoved = async (voucher: Voucher) => {
+    const newList = selectedVouchers.filter(v => v.code !== voucher.code);
+    await recalculateCartWithVouchers(newList);
+  };
+
+  if (!cart || !Array.isArray(cart.items)) return (
+    <div className="cart-page">
+      <p className="text-center my-5 text-lg text-gray-600">Đang tải giỏ hàng...</p>
+    </div>
+  );
+
+  const subtotal = cart.items.reduce((total, item) => total + (item.price * item.quantity), 0);
+  const finalTotal = subtotal - totalDiscount + shippingFee;
 
   return (
     <div className="cart-page">
       <h1>Giỏ hàng</h1>
       {cart.items.length === 0 ? (
-          <p className="text-center my-5">
-          <span className="d-block mb-3 fs-4 text-secondary">Giỏ hàng trống 😢</span>
-          <Link to="/all-products" className="btn btn-primary">
+        <div className="cart-empty">
+          <span className="block mb-4 text-xl text-gray-600">Giỏ hàng trống 😢</span>
+          <Link to="/all-products" className="inline-block px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition">
             Quay lại mua sắm
           </Link>
-        </p>
+        </div>
       ) : (
-        <>
         <div className="cart-content">
           <div className="cart-items">
             {cart.items.map((item) => (
@@ -77,8 +150,8 @@ const CartPage = () => {
                     Đơn giá: {item.price.toLocaleString("vi-VN")} VND
                   </p>
                   <div className="cart-item-quantity">
-                  <button style={{width: "50px"}}
-                      onClick={() => updateQuantity(item.productSlug, -(item.quantity-1))}
+                    <button
+                      onClick={() => updateQuantity(item.productSlug, -(item.quantity - 1))}
                       className="quantity-btn"
                       disabled={item.quantity <= 1}
                     >
@@ -93,25 +166,28 @@ const CartPage = () => {
                     </button>
                     <span>{item.quantity}</span>
                     <button
-                      onClick={() => updateQuantity(item.productSlug, 1)}                                            
+                      onClick={() => updateQuantity(item.productSlug, 1)}
                       className="quantity-btn"
                     >
                       +
                     </button>
-                    <button style={{width: "50px"}}
-                      onClick={() => updateQuantity(item.productSlug, 10)}                                            
+                    <button
+                      onClick={() => updateQuantity(item.productSlug, 10)}
                       className="quantity-btn"
                     >
                       +10
                     </button>
-                    <button style={{width: "50px"}}
-                      onClick={() => updateQuantity(item.productSlug, 100)}                                            
+                    <button
+                      onClick={() => updateQuantity(item.productSlug, 100)}
                       className="quantity-btn"
                     >
                       +100
                     </button>
-                    
-                    <Button style={{marginLeft: "50px"}} variant="contained" color="error" onClick={() => {
+                    <Button
+                      variant="contained"
+                      color="error"
+                      sx={{ ml: 4 }}
+                      onClick={() => {
                         Swal.fire({
                           title: 'Xác nhận xóa?',
                           text: `Bạn có chắc chắn muốn xóa ${item.productName} khỏi giỏ hàng?`,
@@ -119,8 +195,8 @@ const CartPage = () => {
                           showCancelButton: true,
                           confirmButtonText: 'Xóa',
                           cancelButtonText: 'Hủy',
-                          confirmButtonColor: '#d33',    // đỏ cho "Yes"
-                          cancelButtonColor: '#3085d6',  // xanh cho "No"
+                          confirmButtonColor: '#dc2626',
+                          cancelButtonColor: '#3b82f6',
                           reverseButtons: true
                         }).then((result) => {
                           if (result.isConfirmed) {
@@ -140,15 +216,43 @@ const CartPage = () => {
             ))}
           </div>
           <div className="cart-summary">
-            <h3 className="cart-total">
-              Tổng tiền: {cart.items.reduce((total, item) => total + (item.price * item.quantity), 0).toLocaleString("vi-VN")} VND
-            </h3>
-            <Link to="/checkout" className="checkout-btn">
+            <div className="voucher-section">
+              <VoucherComboBox
+                orderValue={subtotal}
+                onVoucherApplied={handleVoucherApplied}
+                onVoucherRemoved={handleVoucherRemoved}
+                appliedVouchers={selectedVouchers}
+              />
+            </div>
+            <div className="order-summary">
+              <div>Tổng tiền hàng: {subtotal.toLocaleString("vi-VN")} VNĐ</div>
+              {totalDiscount > 0 && <div>Giảm giá: -{totalDiscount.toLocaleString("vi-VN")} VNĐ</div>}
+              <div className="free-shipping-info">
+                <div className="flex items-center gap-2">
+                  <span className="text-lg">🚚</span>
+                  <strong>Miễn phí vận chuyển</strong>
+                </div>
+                <div className="text-sm text-gray-600">• Đơn hàng từ 2,000,000 VNĐ</div>
+                <div className="text-sm text-gray-600">• Hoặc sử dụng mã FREESHIP</div>
+                {subtotal < 2000000 && (
+                  <div className="text-sm font-semibold text-red-600 mt-1">
+                    Còn {(2000000 - subtotal).toLocaleString("vi-VN")} VNĐ để được miễn phí ship
+                  </div>
+                )}
+              </div>
+              <div className="font-semibold">
+                Tổng thanh toán: {finalTotal.toLocaleString("vi-VN")} VNĐ
+              </div>
+            </div>
+            <Link
+              to="/checkout"
+              state={{ vouchers: selectedVouchers }}
+              className="checkout-btn"
+            >
               Tiến hành thanh toán
             </Link>
           </div>
         </div>
-        </>
       )}
     </div>
   );

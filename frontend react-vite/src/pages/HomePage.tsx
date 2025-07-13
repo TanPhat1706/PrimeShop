@@ -91,13 +91,28 @@ const HomePage: React.FC = () => {
       .padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
   };
 
-  return (
+  return (<>
+    {/* Banner trái/phải cố định */}
+  <img
+    src="/public/banners/Banner_vertical.png"
+    alt="Banner trái"
+    className="floating-banner left-fixed"
+  />
+  <img
+    src="public/banners/banner-right.png"
+    alt="Banner phải"
+    className="floating-banner right-fixed"
+  />
     <div className="body-container">
       {/* Danh mục sản phẩm */}
       <section className="product-category">
         <div className="category-header">
-          <h1 className="category-title"> 📌 KHUYẾN MÃI ONLINE</h1>
-          <div className="countdown-timer" aria-live="polite">
+          <img
+            src="/public/banners/banner1_afterHeader.png"
+            alt="Khuyến mãi online"
+            className="banner-image"
+          />
+            <div className="countdown-timer" aria-live="polite">
             <span className="timer-label">Kết thúc trong:</span>
             {formatTime(timeLeft)}
           </div>
@@ -202,7 +217,7 @@ const HomePage: React.FC = () => {
         </Link>
       </section>
     </div>
-  );
+  </>);
 };
 
 export default HomePage;

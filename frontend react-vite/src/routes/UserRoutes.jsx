@@ -23,6 +23,8 @@ import Footer from "../components/footer";
 import PaymentResult from "../pages/PaymentResult";
 import News from "../pages/news/News";
 import NewsDetail from "../pages/news/NewsDetail";
+import MinigamePage from "../pages/games/MinigamePage";
+import GameListPage from "../pages/games/GameListPage";
 
 const UserRoutes = () => {
   return (
@@ -47,6 +49,9 @@ const UserRoutes = () => {
         <Route path="/wishlist" element={<WishList />} />
         <Route path="*" element={<NotFound />} />
         <Route path="/payment-result" element={<PaymentResult />} />
+        <Route path="/minigame-list" element={<GameListPage />} />
+        <Route path="/minigame" element={<MinigamePage />} />
+        <Route path="/minigame/:gameId" element={<MinigamePage />} />
       </Routes>
       <Footer />
     </div>
