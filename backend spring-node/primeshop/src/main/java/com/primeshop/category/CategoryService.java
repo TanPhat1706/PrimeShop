@@ -27,6 +27,9 @@ public class CategoryService {
     public List<String> getCategorySlugs() {
         return categoryRepo.findDistinctSlugs();
     }
+    public long countCategory() {
+        return categoryRepo.count();
+    }
 
     
 
