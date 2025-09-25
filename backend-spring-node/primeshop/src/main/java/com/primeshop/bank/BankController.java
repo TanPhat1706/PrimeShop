@@ -4,8 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+
 
 @RestController
 @RequestMapping("/api/bank")
@@ -51,4 +54,20 @@ public class BankController {
 
         return ResponseEntity.ok(Map.of("message", "Bank link confirmed"));
     }
+
+    @GetMapping("/list/{userId}")
+    public ResponseEntity<List<Map<String, Object>>> getBankLinks(@PathVariable Long userId) {
+        List<Bank> banks = repository.findAllByUserId(userId);
+
+        List<Map<String, Object>> result = banks.stream().map(bank -> {
+            Map<String, Object> map = new HashMap<>();
+            map.put("account_number", EncryptionUtil.decrypt(bank.getAccountNumber()));
+            map.put("bank_name", bank.getBankName());
+            map.put("created_at", bank.getCreatedAt());
+            return map;
+        }).toList();
+
+        return ResponseEntity.ok(result);
+    }
+
 }
